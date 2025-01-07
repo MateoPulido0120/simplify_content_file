@@ -224,17 +224,18 @@ if __name__ == "__main__":
             st.session_state['apprentice_agent'] = parameterize_apprentice_agent(st.session_state['expert_agent'], st.session_state['resume_global_content'])
 
     if st.session_state['expert_agent'] is not None and st.session_state['apprentice_agent'] is not None:
-        with st.spinner(text="Processing internal conversation between agents..."):
-            buffer = io.StringIO()
-            with redirect_stdout(buffer):
-                response = st.session_state['apprentice_agent'].chat("hi, i want to learn")
+        if st.session_state['response_formated'] is None:
+            with st.spinner(text="Processing internal conversation between agents..."):
+                buffer = io.StringIO()
+                with redirect_stdout(buffer):
+                    response = st.session_state['apprentice_agent'].chat("hi, i want to learn")
 
-            st.toast('Processed!', icon='✅')
+                st.toast('Processed!', icon='✅')
 
-        with st.spinner(text="Generating required format..."):
-            st.session_state['content_conversation'] = buffer.getvalue()
-            st.session_state['response_formated'] = generate_output_content(st.session_state['content_conversation'])
-            st.toast('Processed!', icon='✅')
+            with st.spinner(text="Generating required format..."):
+                st.session_state['content_conversation'] = buffer.getvalue()
+                st.session_state['response_formated'] = generate_output_content(st.session_state['content_conversation'])
+                st.toast('Processed!', icon='✅')
 
     if st.session_state['response_formated'] is not None:
         st.subheader("Result:")
@@ -249,3 +250,5 @@ if __name__ == "__main__":
             file_name="agents conversation.txt",
             mime="text/plain"
         )
+
+    st.write("If you want to do another test, please reload the page")
