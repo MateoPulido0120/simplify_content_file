@@ -208,7 +208,7 @@ if __name__ == "__main__":
              questions and answers are asked about the specific topic that the document deals with and to be able to have a closer simulation of the true relevant content of the file.
              """)
     
-    st.image("static\image_architecture.PNG")
+    st.image("static/image_architecture.PNG")
 
     uploaded_file = st.file_uploader("Choose a file", accept_multiple_files=False, type="PDF")
     if uploaded_file is not None:
